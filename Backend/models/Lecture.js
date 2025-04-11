@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+// models/Lecture.js
+const mongoose = require('mongoose');
 
 const lectureSchema = new mongoose.Schema({
   title: {
@@ -9,11 +10,14 @@ const lectureSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  pdfUrl: {
+    type: String,
+  },
   course: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Course",
+    ref: 'Course', // References the Course model
     required: true,
   },
 });
 
-module.exports = mongoose.model("Lecture", lectureSchema);
+module.exports = mongoose.model('Lecture', lectureSchema);

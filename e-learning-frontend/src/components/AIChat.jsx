@@ -21,7 +21,7 @@ const AIChat = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer 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`
+          'Authorization': `Bearer API_KEY`
         },
         body: JSON.stringify({
           model: 'meta-llama/llama-4-scout-17b-16e-instruct',

@@ -1,22 +1,25 @@
-// models/Lecture.js
 const mongoose = require('mongoose');
 
 const lectureSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
+  title: { 
+    type: String, 
+    required: true 
   },
-  videoUrl: {
-    type: String,
-    required: true,
+  videoUrl: { 
+    type: String 
   },
-  pdfUrl: {
+  notes: {
     type: String,
+    default: ''
   },
-  course: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Course', // References the Course model
-    required: true,
+  course: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Course', 
+    required: true 
+  },
+  createdAt: { 
+    type: Date, 
+    default: Date.now 
   },
 });
 

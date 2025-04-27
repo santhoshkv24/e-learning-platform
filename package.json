@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@shadcn/ui": "^0.0.4",
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.16",
+    "@videojs/themes": "^1.0.1",
+    "react-player": "^2.16.0",
+    "video.js": "^7.21.7",
+    "videojs-react-enhanced": "^0.3.1",
+    "videojs-youtube": "^3.0.1"
+  }
+}

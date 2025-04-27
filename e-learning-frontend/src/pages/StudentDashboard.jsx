@@ -1,83 +1,86 @@
+// src/pages/StudentDashboard.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import EnrolledCourseCard from '../components/EnrolledCourseCard';
+import AvailableCourseCard from '../components/AvailableCourseCard';
 
 const StudentDashboard = () => {
   const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [availableCourses, setAvailableCourses] = useState([]);
 
-  // Fetch enrolled and available courses
+  // Fetch enrolled courses
   useEffect(() => {
-    const fetchCourses = async () => {
+    const fetchEnrolledCourses = async () => {
       try {
         const token = localStorage.getItem('token');
-        const enrolledResponse = await axios.get('http://localhost:5000/api/courses/enrolled', {
+        const response = await axios.get('http://localhost:5000/api/courses/enrolled', {
           headers: { Authorization: `Bearer ${token}` },
         });
-        const availableResponse = await axios.get('http://localhost:5000/api/courses');
-        setEnrolledCourses(enrolledResponse.data);
-        setAvailableCourses(availableResponse.data);
+        setEnrolledCourses(response.data);
       } catch (error) {
         console.error(error);
-        alert('Failed to fetch courses. Please try again.');
+        alert('Failed to fetch enrolled courses.');
       }
     };
 
-    fetchCourses();
+    fetchEnrolledCourses();
   }, []);
 
-  // Enroll in a course
-  const handleEnroll = async (courseId) => {
-    try {
-      const token = localStorage.getItem('token');
-      await axios.post(
-        `http://localhost:5000/api/courses/${courseId}/enroll`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      alert('Enrolled successfully');
-      window.location.reload(); // Refresh to update the course list
-    } catch (error) {
-      console.error(error);
-      alert('Failed to enroll. Please try again.');
-    }
-  };
+  // Fetch available courses
+  useEffect(() => {
+    const fetchAvailableCourses = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get('http://localhost:5000/api/courses', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setAvailableCourses(response.data);
+      } catch (error) {
+        console.error(error);
+        alert('Failed to fetch available courses.');
+      }
+    };
+
+    fetchAvailableCourses();
+  }, []);
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">My Courses</h2>
-      {enrolledCourses.length === 0 ? (
-        <p className="text-gray-500">You are not enrolled in any courses yet.</p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-          {enrolledCourses.map((course) => (
-            <div key={course._id} className="bg-white p-4 rounded shadow-md space-y-2">
-              <h3 className="text-lg font-semibold">{course.title}</h3>
-              <p className="text-sm text-gray-600">{course.description}</p>
-              <p className="text-sm text-gray-500">Progress: {course.progress || 0}%</p>
-            </div>
-          ))}
-        </div>
-      )}
+    <div>
+      {/* Navbar */}
+      <Navbar />
 
-      <h2 className="text-2xl font-bold mb-4">Available Courses</h2>
-      {availableCourses.length === 0 ? (
-        <p className="text-gray-500">No courses available.</p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {availableCourses.map((course) => (
-            <div key={course._id} className="bg-white p-4 rounded shadow-md space-y-2">
-              <h3 className="text-lg font-semibold">{course.title}</h3>
-              <p className="text-sm text-gray-600">{course.description}</p>
-              <button
-                onClick={() => handleEnroll(course._id)}
-                className="bg-primary text-white px-4 py-2 rounded hover:bg-secondary transition duration-300"
-              >
-                Enroll
-              </button>
+      {/* Enrolled Courses Section */}
+      <section className="py-12">
+        <div className="container mx-auto px-6">
+          <h2 className="text-2xl font-bold text-foreground mb-8">Enrolled Courses</h2>
+          {enrolledCourses.length === 0 ? (
+            <p className="text-muted-foreground text-center">No courses enrolled.</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {enrolledCourses.map((course) => (
+                <EnrolledCourseCard key={course._id} course={course} role="student"/>
+              ))}
             </div>
-          ))}
+          )}
         </div>
-      )}
+      </section>
+
+      {/* Available Courses Section */}
+      <section className="py-12">
+        <div className="container mx-auto px-6">
+          <h2 className="text-2xl font-bold text-foreground mb-8">Available Courses</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {availableCourses.map((course) => (
+              <AvailableCourseCard key={course._id} course={course} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };

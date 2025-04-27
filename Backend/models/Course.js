@@ -1,30 +1,36 @@
-// models/Course.js
 const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true,
+    required: true
   },
-  description: {
-    type: String,
-    required: true,
-  },
+  description: String,
+  thumbnailUrl: String,
   instructor: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // References the User model (instructor)
-    required: true,
+    ref: 'User',
+    required: true
   },
-  lectures: [
-    {
+  students: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  lectures: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Lecture'
+  }],
+  progress: [{
+    student: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Lecture', // References the Lecture model
+      ref: 'User'
     },
-  ],
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+    completedLectures: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Lecture'
+    }]
+  }],
+  createdAt: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model('Course', courseSchema);

@@ -1,0 +1,237 @@
+/* Global CSS Variables */
+:root {
+  --primary-color: #14b8a6;    /* Teal */
+  --secondary-color: #0ea5e9;  /* Sky */
+  --accent-color: #f43f5e;     /* Rose */
+  --neutral-color: #71717a;    /* Zinc */
+  --success-color: #22c55e;    /* Green */
+  --warning-color: #eab308;    /* Yellow */
+  --error-color: #ef4444;      /* Red */
+  --info-color: #3b82f6;       /* Blue */
+  
+  /* Background and text colors */
+  --bg-light: #ffffff;
+  --bg-subtle: #f9fafb;
+  --bg-muted: #f3f4f6;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--info-color));
+  --gradient-accent: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+}
+
+/* Color theme utility classes */
+.text-primary { color: var(--primary-color); }
+.text-secondary { color: var(--secondary-color); }
+.text-accent { color: var(--accent-color); }
+.text-neutral { color: var(--neutral-color); }
+.text-success { color: var(--success-color); }
+.text-warning { color: var(--warning-color); }
+.text-error { color: var(--error-color); }
+.text-info { color: var(--info-color); }
+
+.bg-primary { background-color: var(--primary-color); }
+.bg-secondary { background-color: var(--secondary-color); }
+.bg-accent { background-color: var(--accent-color); }
+.bg-neutral { background-color: var(--neutral-color); }
+.bg-success { background-color: var(--success-color); }
+.bg-warning { background-color: var(--warning-color); }
+.bg-error { background-color: var(--error-color); }
+.bg-info { background-color: var(--info-color); }
+
+.border-primary { border-color: var(--primary-color); }
+.border-secondary { border-color: var(--secondary-color); }
+.border-accent { border-color: var(--accent-color); }
+.border-neutral { border-color: var(--neutral-color); }
+.border-success { border-color: var(--success-color); }
+.border-warning { border-color: var(--warning-color); }
+.border-error { border-color: var(--error-color); }
+.border-info { border-color: var(--info-color); }
+
+/* Gradient backgrounds */
+.bg-gradient-primary { background-image: var(--gradient-primary); }
+.bg-gradient-accent { background-image: var(--gradient-accent); }
+
+/* Text with gradient */
+.text-gradient-primary {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: var(--gradient-primary);
+}
+
+.text-gradient-accent {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: var(--gradient-accent);
+}
+
+/* Subtle backgrounds */
+.bg-light { background-color: var(--bg-light); }
+.bg-subtle { background-color: var(--bg-subtle); }
+.bg-muted { background-color: var(--bg-muted); }
+
+/* Button consistent styling - force white text */
+.bg-primary,
+.bg-secondary,
+.bg-accent,
+.bg-success,
+.bg-warning,
+.bg-error,
+.bg-info,
+.bg-neutral,
+.bg-gradient-primary,
+.bg-gradient-accent {
+  color: white !important;
+}
+
+/* Default text color for colored background buttons */
+button[class*="bg-"],
+.btn[class*="bg-"],
+.button[class*="bg-"],
+[type="button"][class*="bg-"],
+[type="submit"][class*="bg-"],
+[type="reset"][class*="bg-"] {
+  color: rgb(0, 0, 0) !important;
+}
+
+/* Exception for outlined buttons - these should use the color of their border */
+button.border-primary:not(.bg-primary):not(.bg-secondary):not(.bg-accent):not(.bg-success):not(.bg-warning):not(.bg-error):not(.bg-info):not(.bg-gradient-primary):not(.bg-gradient-accent),
+.btn.border-primary:not(.bg-primary):not(.bg-secondary):not(.bg-accent):not(.bg-success):not(.bg-warning):not(.bg-error):not(.bg-info):not(.bg-gradient-primary):not(.bg-gradient-accent) {
+  color: var(--primary-color) !important;
+  background-color: transparent !important;
+}
+
+/* Add color for other border variants */
+button.border-secondary:not([class*="bg-"]), .btn.border-secondary:not([class*="bg-"]) {
+  color: var(--secondary-color) !important;
+  background-color: transparent !important;
+}
+
+button.border-accent:not([class*="bg-"]), .btn.border-accent:not([class*="bg-"]) {
+  color: var(--accent-color) !important;
+  background-color: transparent !important;
+}
+
+button.border-success:not([class*="bg-"]), .btn.border-success:not([class*="bg-"]) {
+  color: var(--success-color) !important;
+  background-color: transparent !important;
+}
+
+button.border-warning:not([class*="bg-"]), .btn.border-warning:not([class*="bg-"]) {
+  color: var(--warning-color) !important;
+  background-color: transparent !important;
+}
+
+button.border-error:not([class*="bg-"]), .btn.border-error:not([class*="bg-"]) {
+  color: var(--error-color) !important;
+  background-color: transparent !important;
+}
+
+button.border-info:not([class*="bg-"]), .btn.border-info:not([class*="bg-"]) {
+  color: var(--info-color) !important;
+  background-color: transparent !important;
+}
+
+/* Default text color for regular buttons without bg class */
+button:not([class*="bg-"]):not([class*="border-"]),
+.btn:not([class*="bg-"]):not([class*="border-"]),
+.button:not([class*="bg-"]):not([class*="border-"]),
+[type="button"]:not([class*="bg-"]):not([class*="border-"]),
+[type="submit"]:not([class*="bg-"]):not([class*="border-"]),
+[type="reset"]:not([class*="bg-"]):not([class*="border-"]) {
+  color: #333 !important;
+}
+
+/* Main background gradient */
+body {
+  background-color: var(--bg-subtle);
+  background-image: radial-gradient(
+    circle at center top,
+    rgba(20, 184, 166, 0.05),
+    transparent 70%
+  );
+  background-attachment: fixed;
+}
+
+/* Add glass-effect cards */
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
+
+/* Card hover animations */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+}
+
+/* Floating animation */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+.floating {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-subtle);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--neutral-color);
+  opacity: 0.5;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+  opacity: 0.7;
+}
+
+/* Basic styling */
+.test-bg {
+  background-color: var(--primary-color);
+}
+
+.test-text {
+  color: var(--primary-color);
+}
+
+/* Override button styles */
+.btn-primary,
+button.bg-primary,
+[type="button"].bg-primary,
+[type="submit"].bg-primary {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+/* Override card styles */
+.card, 
+.bg-card {
+  background-color: #f9f9f9 !important;
+  border: 1px solid #e5e5e5 !important;
+}
+
+/* Override navbar colors */
+nav {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e5e5e5 !important;
+} 
+

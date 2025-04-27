@@ -1,77 +1,38 @@
-// routes/authRoutes.js
 const express = require('express');
-const router = express.Router();
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const authMiddleware = require('../middleware/auth');
 
-// Register
+const router = express.Router();
+
+// Register a new user
 router.post('/register', async (req, res) => {
   const { name, email, password, role } = req.body;
-
   try {
-    // Check if user exists
-    let user = await User.findOne({ email });
-    if (user) return res.status(400).json({ msg: 'User already exists' });
-
-    // Create user
-    user = new User({ name, email, password, role });
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ msg: 'User already exists' });
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new User({ name, email, password: hashedPassword, role });
     await user.save();
-
-    // Generate JWT
-    const payload = { user: { id: user.id } };
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      { expiresIn: '1h' },
-      (err, token) => {
-        if (err) throw err;
-        res.json({ token });
-      }
-    );
+    res.status(201).json({ msg: 'User registered successfully' });
   } catch (error) {
-    console.error(error.message);
     res.status(500).send('Server error');
   }
 });
 
-// Login
+// Login a user
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
-
   try {
-    // Find user by email
-    let user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ msg: 'Invalid credentials' });
-
-    // Compare passwords
-    const isMatch = await user.matchPassword(password);
-    if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
-
-    // Generate JWT
-    const payload = { user: { id: user.id } };
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      { expiresIn: '1h' },
-      (err, token) => {
-        if (err) throw err;
-        res.json({ token });
-      }
-    );
+    const user = await User.findOne({ email });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(400).json({ msg: 'Invalid credentials' });
+    }
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    res.json({ token, user });
   } catch (error) {
-    console.error(error.message);
-    res.status(500).send('Server error');
-  }
-});
-
-// Get user details (protected route)
-router.get('/me', authMiddleware, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).select('-password');
-    res.json(user);
-  } catch (error) {
-    console.error(error.message);
     res.status(500).send('Server error');
   }
 });

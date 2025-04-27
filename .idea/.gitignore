@@ -7,4 +7,4 @@
 /dataSources/
 /dataSources.local.xml
 .env
-/src/components/AIChat.jsx
+/e-learning-frontend/src/components/AIChat.jsx
